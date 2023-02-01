@@ -38,7 +38,12 @@ export default function Home() {
             </a>
           </div>
         </div>
-
+          <h3> Aryan Patel</h3>
+          <h3> Andy Nguyen</h3>
+          <h3> Kaavya Menon</h3>
+          <h3> Anvith Bompelly</h3>
+          <h3> Ton Quoc Bao Ngo</h3>
+          <h3> Elvin Ebby</h3>
         <div className={styles.center}>
           <Image
             className={styles.logo}
