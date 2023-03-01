@@ -83,18 +83,18 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: pink;
 }
-/* 
+
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  background-color: pink;
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
-} */
+    rgb(var(--background-start-rgb)); */
+}
 
 a {
   color: inherit;
@@ -105,4 +105,15 @@ a {
   html {
     color-scheme: dark;
   }
+}
+.Start {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.welcomeTxtField {
+  display: flex;
+}
+.welcomeBtn {
+  width: 100%;
 }

@@ -1,10 +1,9 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useRouter } from 'next/router'
-import { useState } from 'react' 
-import { Button } from '@mui/material'
+import { useState } from 'react'
+import { Button, Grid, Typography } from '@mui/material'
 import { TextField } from '@mui/material'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,48 +18,55 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-      <Intro />
+        <Intro />
       </main>
     </>
   )
 }
 
 const Intro = () => {
+  const router = useRouter()
 
+  // State variable to keep track of username & roomID
+  // Whenever the state variable are changed the webpage i.e localhost:3000 will be re-rendered
   const [username, setUserName] = useState("Aryan")
   const [roomID, setRoomID] = useState(1)
-  // roomID
-
-  const router = useRouter()
-    const [route, setRoute] = useState()
-    const handleSubmit = (e) => {
-      // useState()
-      // useEffect()
-      // useRef()
-        console.log("Hello")
-        e.preventDefault()
-        router.push({
-            pathname: '/videos/meeting',
-            query: {
-                name: username,
-                id: roomID
-             },
-        })
+  
+  // username: Aryan Patel, roomid:   191952; When submit is clicked, reroute
+  // FROM:  http://localhost:3000/
+  // TO     http://localhost:3000/videos/meeting?name=Aryan+Patel&id=191952
+  const handleSubmit = (e) => {
+    console.log(`Now leaving main page, rerouting to video page`)
+    router.push({
+        pathname: '/videos/meeting',
+        query: {  // query paramter we can make use of in [video].jsx
+            name: username,
+            id: roomID
+        }
+    })
   }
 
-  return(
+  return (
     <div>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={e => {
-            setUserName(e.target.value)
-            console.log(username)
-          }} />
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={e => {
-            setRoomID(e.target.value)
-            console.log(roomID)
-          }} />
-          <Button variant="contained" onChange={e=> handleSubmit(e)} >
-            SUBMIT
-          </Button>
+        <Grid container spacing={5}>
+          <Grid item xs={10} lg={10}>
+            <TextField className='welcomeTxtField' label="UserName" variant="outlined" onChange={e => {
+              setUserName(e.target.value)
+            }} />
+          </Grid>
+          <Grid item xs={10} lg={10}>
+            <TextField className='welcomeTxtField' label="Room ID" variant="outlined" onChange={e => {
+              setRoomID(e.target.value)
+            }} />
+            </Grid>
+          <Grid item xs={10} lg={10} className="welcomeBtnDiv">
+            <Button variant="contained" className='welcomeBtn' onClick={(e) => {
+              handleSubmit(e)
+            }}>
+              SUBMIT
+            </Button>
+          </Grid>
+        </Grid>
     </div>
   )
 }
