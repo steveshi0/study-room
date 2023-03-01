@@ -83,8 +83,9 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  background-color: pink;
 }
-
+/* 
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -93,7 +94,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
 
 a {
   color: inherit;

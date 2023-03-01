@@ -3,25 +3,13 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState } from 'react' 
+import { Button } from '@mui/material'
+import { TextField } from '@mui/material'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-
-  const router = useRouter()
-    const [route, setRoute] = useState()
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        router.push({
-            pathname: '/videos/meeting',
-            query: {
-                name: route,
-                id: 52
-             },
-        })
-    }
-
   return (
     <>
       <Head>
@@ -31,18 +19,48 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-      <div>
-            <h1>Example Form</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name='route' onChange={(e)=>
-                {
-                    console.log("Chaning value")
-                    setRoute(e.target.value)
-                }} />
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+      <Intro />
       </main>
     </>
+  )
+}
+
+const Intro = () => {
+
+  const [username, setUserName] = useState("Aryan")
+  const [roomID, setRoomID] = useState(1)
+  // roomID
+
+  const router = useRouter()
+    const [route, setRoute] = useState()
+    const handleSubmit = (e) => {
+      // useState()
+      // useEffect()
+      // useRef()
+        console.log("Hello")
+        e.preventDefault()
+        router.push({
+            pathname: '/videos/meeting',
+            query: {
+                name: username,
+                id: roomID
+             },
+        })
+  }
+
+  return(
+    <div>
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={e => {
+            setUserName(e.target.value)
+            console.log(username)
+          }} />
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={e => {
+            setRoomID(e.target.value)
+            console.log(roomID)
+          }} />
+          <Button variant="contained" onChange={e=> handleSubmit(e)} >
+            SUBMIT
+          </Button>
+    </div>
   )
 }
