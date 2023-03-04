@@ -117,3 +117,48 @@ a {
 .welcomeBtn {
   width: 100%;
 }
+.videoPage {
+  display: flex;
+  height: 100vh;
+}
+.leftHalf {
+  display: flex;
+  width: 75%;
+}
+
+.rightHalf {
+  display: flex;
+  width: 25%;
+  background-color: white;
+}
+
+.TextMessageBox {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: #D9D9D9;
+   width: 25vw;
+   height: 4vh;
+   padding: 0 !important;
+}
+
+.msgMe {
+  background-color: green;
+  border-radius: 20px;
+}
+.msgThem {
+  display: flex;
+  background-color: gray;
+  border-radius: 20px;
+}
+.chatStack {
+  height: 85%;
+  display: flex;
+}
+.bottomStack {
+  display: flex;
+}
+.chatBar {
+  height: 15%;
+  display: flex;
+}
