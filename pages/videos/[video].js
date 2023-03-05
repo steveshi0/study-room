@@ -9,7 +9,7 @@ import socketIOClient from "socket.io-client"
 export default function Video() {
 
     // socket instance
-    const socket = socketIOClient(`localhost:3001`, {secure: false});
+    const socket = socketIOClient(`https://study-room-server.onrender.com`, {secure: false});
     const router = useRouter()
     const user_info = router.query
 
