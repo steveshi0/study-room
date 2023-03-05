@@ -113,6 +113,7 @@ a {
 }
 .welcomeTxtField {
   display: flex;
+  
 }
 .welcomeBtn {
   width: 100%;

@@ -1,4 +1,5 @@
 import React from 'react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { Box, Grid, Stack } from '@mui/system'
@@ -65,9 +66,11 @@ export default function Video() {
     }, [sent])
 
     return (
+        <>
+        <Head><title>Meeting Room</title></Head>
         <div className='videoPage'>
             <div className="leftHalf">
-                Hello Steve
+                
             </div>
             <div className="rightHalf">
                 <Stack spacing={1} className="chatStack">
@@ -79,7 +82,7 @@ export default function Video() {
                     <Stack spacing={10} className="bottomStack">
                         <div></div>
                         <TextField
-                            label=""
+                            label="Enter your message here"
                             type="Outlined"
                             autoComplete="current-password"
                             className='chatBar'
@@ -91,6 +94,7 @@ export default function Video() {
                 </Stack>
             </div>
         </div>
+        </>
     )
 }
 
