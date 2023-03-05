@@ -20,8 +20,6 @@ app.get('/', (req, res) => {
   
 
 io.on('connection', (socket) => {
-  socket.join("asfjdjaf")
-
   console.log('a user connected');
 });
 
