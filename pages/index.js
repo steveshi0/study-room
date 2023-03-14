@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Button, Grid, Typography } from '@mui/material'
 import { TextField } from '@mui/material'
-import StudyRoomPicture from './StudyRoomPicture.png'
+import { StudyRoomPicture } from '../public/StudyRoomPicture.png'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -76,7 +76,11 @@ const Intro = () => {
           </Grid>
         </Grid>
     </div>
-    <div> <img src={StudyRoomPicture} alt="Study Room Logo" /> </div>
+    <div>
+      <img 
+        src="./public/StudyRoomPicture.png"
+        alt="Study Room" />
+    </div>
     </>
   )
 }
