@@ -163,3 +163,8 @@ a {
   height: 15%;
   display: flex;
 }
+
+.videoBox {
+  height: 500PX;
+  width: 500PX;
+}

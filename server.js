@@ -29,6 +29,7 @@ io.on('connection', (socket) => {
   socket.on("info", (data) => {
     console.log(data)
     socket.join(data.id)
+    io.in(data['id']).emit("Elvin Joined", data)
   })
 
   // Receiving messages from clients

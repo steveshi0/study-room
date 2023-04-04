@@ -7,7 +7,9 @@ import { TextField } from '@mui/material'
 import socketIOClient from "socket.io-client"
 
 
+
 export default function Video() {
+
 
     // socket instance
     const socket = socketIOClient(`https://study-room-server.onrender.com`, {secure: false});
@@ -33,6 +35,17 @@ export default function Video() {
             msg: "Hello Bot1!"
         }
     ]);
+    // video
+    const [remoteStreams, setRemoteStreams] = useState();
+    useEffect(() => {
+        navigator.mediaDevices.getUserMedia({video: true, audio: true})
+        .then(data => {
+            setRemoteStreams(data)
+            //const copy = remoteStreams;
+            //Object.assign(copy, {data});
+            //setRemoteStreams(copy);
+        })
+    }, [])
 
     const submitMsg = (e) => {
         if (e.keyCode == 13 && e.target.value != "") {
@@ -70,7 +83,7 @@ export default function Video() {
         <Head><title>Meeting Room</title></Head>
         <div className='videoPage'>
             <div className="leftHalf">
-                
+                <videoPlaceHolder stream = {remoteStreams}/>
             </div>
             <div className="rightHalf">
                 <Stack spacing={1} className="chatStack">
@@ -106,25 +119,25 @@ const TextBubble = (props) => {
     )
 }
 
-/*
-const TextBubble2 = (props) => {
+const videoPlaceHolder  = (props) => {
 
-    const [age, setAge] = useState(15)
-
+    const vidRef = useRef(undefined);
     useEffect(() => {
-        console.log(`New age is ${age}`)
-    }, [age])
+      vidRef.current.srcObject = props.stream;
+      vidRef.current.addEventListener("loadedmetadata", () => {
+        vidRef.current.play();
+      });
+    }, [vidRef.current])
+  
+    return(
+        <video classname ="videoBox" ref = {vidRef}>
 
-    
-    return (
-        <div>
-            <button onClick={e => {
-                setAge(Math.random(10))
-            }}>AGE</button> 
-            {props.aryan}
-            <br />
-            {props.anvith}
-        </div>
+        </video>
+            
     )
 }
-*/
+
+
+
+
+
