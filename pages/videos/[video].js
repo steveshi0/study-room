@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Box, Grid, Stack } from '@mui/system'
 import { TextField } from '@mui/material'
 import socketIOClient from "socket.io-client"
@@ -83,7 +83,7 @@ export default function Video() {
         <Head><title>Meeting Room</title></Head>
         <div className='videoPage'>
             <div className="leftHalf">
-                <videoPlaceHolder stream = {remoteStreams}/>
+                <VideoPlaceHolder stream = {remoteStreams}/>
             </div>
             <div className="rightHalf">
                 <Stack spacing={1} className="chatStack">
@@ -119,7 +119,7 @@ const TextBubble = (props) => {
     )
 }
 
-const videoPlaceHolder  = (props) => {
+const VideoPlaceHolder  = (props) => {
 
     const vidRef = useRef(undefined);
     useEffect(() => {
@@ -130,7 +130,7 @@ const videoPlaceHolder  = (props) => {
     }, [vidRef.current])
   
     return(
-        <video classname ="videoBox" ref = {vidRef}>
+        <video className ="videoBox" ref = {vidRef}>
 
         </video>
             
