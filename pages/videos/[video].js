@@ -56,7 +56,6 @@ export default function Video() {
 
         socket.on('userID', data => {
             if (data[`userID`] != userID) {
-                console.log(`Call user: ${data[`userID`]}`)
 
                 navigator.mediaDevices.getUserMedia({video: true, audio: true})
                 .then(stream => {
