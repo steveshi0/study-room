@@ -5,21 +5,30 @@ import { useState, useEffect, useRef } from 'react'
 import { Box, Grid, Stack } from '@mui/system'
 import { TextField } from '@mui/material'
 import socketIOClient from "socket.io-client"
-
-
+import Peer from 'peerjs'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function Video() {
 
 
     // socket instance
-    const socket = socketIOClient(`https://study-room-server.onrender.com`, {secure: false});
+    // const socket = socketIOClient(`https://study-room-server.onrender.com`, {secure: false});
+    const socket = socketIOClient(`http://localhost:3001`);
     const router = useRouter()
     const user_info = router.query
+    const userID = `${uuidv4()}`
 
     useEffect(() => {
         // Our path: http://localhost:3000/videos/meeting?name=Aryan+Patel&id=191952
         console.log(user_info)
         socket.emit("info", user_info)
+    }, [])
+
+    useEffect(() => {
+        socket.emit('video-call', {
+            roomID: user_info['id'], 
+            userID: userID
+        })
     }, [])
 
     // messages states
@@ -36,16 +45,64 @@ export default function Video() {
         }
     ]);
     // video
-    const [remoteStreams, setRemoteStreams] = useState();
+    const [remoteStreams, setRemoteStreams] = useState({});
     useEffect(() => {
-        navigator.mediaDevices.getUserMedia({video: true, audio: true})
-        .then(data => {
-            setRemoteStreams(data)
-            //const copy = remoteStreams;
-            //Object.assign(copy, {data});
-            //setRemoteStreams(copy);
+        // navigator.mediaDevices.getUserMedia({video: true, audio: true})
+        // .then(myStream => {
+        //     const peer = new Peer(userID)
+        //     peer.on('open', (id) => {
+        //         console.log(id)
+        //     })
+            
+        //     // call
+        //     peer.on('call', (call) => {
+        //         // answer a call from a friend and provide myStream to that friend
+        //         call.answer(myStream)
+        //         // receive the stream from that friend and append that to remoteStreams 
+        //         call.on('stream', (friendStream) => {
+        //             addFriendStream(call.peer, friendStream)
+        //         })
+        //     })
+        // })
+
+        socket.on('userID', (data) => {
+            console.log(data)
+            navigator.mediaDevices.getUserMedia({video: true, audio: true})
+            .then(myStream => {
+                const peer = new Peer(userID)
+                peer.on('open', (id) => {
+                    console.log(id)
+                })
+
+                // make call
+                const makeCall = peer.call(data['userID'], myStream)
+                console.log(makeCall)
+                makeCall.on('stream', stream => {
+                    addFriendStream(makeCall.peer, stream)
+                })
+
+                // call
+                peer.on('call', (call) => {
+                    console.log("I am getting a call")
+                    // answer a call from a friend and provide myStream to that friend
+                    call.answer(myStream)
+                    // receive the stream from that friend and append that to remoteStreams 
+                    call.on('stream', (friendStream) => {
+                        addFriendStream(call.peer, friendStream)
+                    })
+                })
+            })
         })
     }, [])
+
+
+
+    // helper method to append new friendStream to remoteStreams state
+    const addFriendStream = (friendID, friendStream) => {
+        const remoteStreamsCopy = remoteStreams
+        remoteStreamsCopy[friendID] = friendStream
+        setRemoteStreams(Object.assign({}, remoteStreamsCopy))
+    }
 
     const submitMsg = (e) => {
         if (e.keyCode == 13 && e.target.value != "") {
@@ -83,7 +140,10 @@ export default function Video() {
         <Head><title>Meeting Room</title></Head>
         <div className='videoPage'>
             <div className="leftHalf">
-                <VideoPlaceHolder stream = {remoteStreams}/>
+                {Object.keys(remoteStreams).map((curr, ind) => {
+                    const currStream = remoteStreams[curr];
+                    return <VideoPlaceHolder stream={currStream} key={ind} />
+                })}
             </div>
             <div className="rightHalf">
                 <Stack spacing={1} className="chatStack">

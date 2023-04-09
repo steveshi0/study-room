@@ -29,7 +29,6 @@ io.on('connection', (socket) => {
   socket.on("info", (data) => {
     console.log(data)
     socket.join(data.id)
-    io.in(data['id']).emit("Elvin Joined", data)
   })
 
   // Receiving messages from clients
@@ -39,8 +38,15 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', (socket) => {
-    console.log(`A disconnected user`);
-  });
+    console.log(`A disconnected user`)
+  })
+
+  // Send the uuid 
+  socket.on("video-call", (data) => {
+    console.log(data)
+    console.log('Received a new uuid for video call')
+    io.in(data['roomID']).emit('userID', data)
+  })
 });
 
 
