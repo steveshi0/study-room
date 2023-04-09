@@ -16,7 +16,8 @@ export default function Video() {
     const socket = socketIOClient(`http://localhost:3001`);
     const router = useRouter()
     const user_info = router.query
-    const userID = `${uuidv4()}`
+    const [userID, setUserId] = useState(`${uuidv4()}`);
+    const peer = new Peer(userID);
 
     useEffect(() => {
         // Our path: http://localhost:3000/videos/meeting?name=Aryan+Patel&id=191952
@@ -47,61 +48,46 @@ export default function Video() {
     // video
     const [remoteStreams, setRemoteStreams] = useState({});
     useEffect(() => {
-        // navigator.mediaDevices.getUserMedia({video: true, audio: true})
-        // .then(myStream => {
-        //     const peer = new Peer(userID)
-        //     peer.on('open', (id) => {
-        //         console.log(id)
-        //     })
-            
-        //     // call
-        //     peer.on('call', (call) => {
-        //         // answer a call from a friend and provide myStream to that friend
-        //         call.answer(myStream)
-        //         // receive the stream from that friend and append that to remoteStreams 
-        //         call.on('stream', (friendStream) => {
-        //             addFriendStream(call.peer, friendStream)
-        //         })
-        //     })
-        // })
+        // Check Peer is on, if not it is not connected to the server and dataConnection won't transport mediaStream
+        peer.on('open',id => {
+            console.log("Peer is open");
+            console.log(id);
+        });
 
-        socket.on('userID', (data) => {
-            console.log(data)
-            navigator.mediaDevices.getUserMedia({video: true, audio: true})
-            .then(myStream => {
-                const peer = new Peer(userID)
-                peer.on('open', (id) => {
-                    console.log(id)
-                })
+        socket.on('userID', data => {
+            if (data[`userID`] != userID) {
+                console.log(`Call user: ${data[`userID`]}`)
 
-                // make call
-                const makeCall = peer.call(data['userID'], myStream)
-                console.log(makeCall)
-                makeCall.on('stream', stream => {
-                    addFriendStream(makeCall.peer, stream)
-                })
-
-                // call
-                peer.on('call', (call) => {
-                    console.log("I am getting a call")
-                    // answer a call from a friend and provide myStream to that friend
-                    call.answer(myStream)
-                    // receive the stream from that friend and append that to remoteStreams 
-                    call.on('stream', (friendStream) => {
-                        addFriendStream(call.peer, friendStream)
+                navigator.mediaDevices.getUserMedia({video: true, audio: true})
+                .then(stream => {
+                    console.log(`Calling user: ${data[`userID`]}`)
+                    const call = peer.call(data["userID"], stream);
+                    call.on('stream', stream => {
+                        addFriendStream(call.peer, stream);
                     })
                 })
+            }
+        });
+
+        peer.on('call', call => {
+            console.log(`Getting call from user: ${call.peer}`)
+
+            navigator.mediaDevices.getUserMedia({video: true, audio: true})
+            .then(stream => {
+                call.answer(stream);
             })
-        })
-    }, [])
+            call.on('stream', stream => {
+                addFriendStream(call.peer, stream);
+            })
+        });
 
-
+      }, [userID]);
 
     // helper method to append new friendStream to remoteStreams state
     const addFriendStream = (friendID, friendStream) => {
-        const remoteStreamsCopy = remoteStreams
-        remoteStreamsCopy[friendID] = friendStream
-        setRemoteStreams(Object.assign({}, remoteStreamsCopy))
+        const remoteStreamsCopy = remoteStreams;
+        remoteStreamsCopy[friendID] = friendStream;
+        setRemoteStreams(Object.assign({}, remoteStreamsCopy));
     }
 
     const submitMsg = (e) => {
