@@ -12,8 +12,8 @@ export default function Video() {
 
 
     // socket instance
-    // const socket = socketIOClient(`https://study-room-server.onrender.com`, {secure: false});
-    const socket = socketIOClient(`http://localhost:3001`);
+    const socket = socketIOClient(`https://study-room-server-9mmo.onrender.com`, {secure: false});
+    //const socket = socketIOClient(`http://localhost:3001`);
     const router = useRouter()
     const user_info = router.query
     const [userID, setUserId] = useState(`${uuidv4()}`);
@@ -56,7 +56,10 @@ export default function Video() {
 
         socket.on('userID', data => {
             if (data[`userID`] != userID) {
-
+                peer.connect(data[`userID`], (detail) => {
+                    console.log(detail)
+                })
+                
                 navigator.mediaDevices.getUserMedia({video: true, audio: true})
                 .then(stream => {
                     console.log(`Calling user: ${data[`userID`]}`)
@@ -67,7 +70,6 @@ export default function Video() {
                 })
             }
         });
-
         peer.on('call', call => {
             console.log(`Getting call from user: ${call.peer}`)
 
@@ -80,6 +82,9 @@ export default function Video() {
             })
         });
 
+        peer.on('disconnected', call => {
+            console.log("user disconnected");
+        });
       }, [userID]);
 
     // helper method to append new friendStream to remoteStreams state
