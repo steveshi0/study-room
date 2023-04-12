@@ -4,22 +4,26 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const cors = require('cors'); 
+const { PeerServer } = require("peer");
 app.use(cors());
+
+// Custom Peer Server, only work locally
+const peerServer = PeerServer({ port: 9000, path: "/elvin" });
 
 const io = new Server(server, {
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
     }
-  });
+});
 
-// app.get('/eatfoo/steve', (req, res) => {
-//   res.send("Steve is eating")
-// })
+app.get('/', (req, res) => {
+  res.send('<h1>Steve is Eating, Steve is sleeping, Steve is repeating</h1>');
+})
 
-// app.get('/', (req, res) => {
-//     res.send('<h1>Hello world</h1>');
-//   });
+app.get('/', (req, res) => {
+    res.send('<h1>Hello world</h1>');
+});
   
 
 io.on('connection', (socket) => {

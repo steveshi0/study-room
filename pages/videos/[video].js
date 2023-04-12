@@ -17,7 +17,11 @@ export default function Video() {
     const router = useRouter()
     const user_info = router.query
     const [userID, setUserId] = useState(`${uuidv4()}`);
-    const peer = new Peer(userID);
+    const peer = new Peer(userID, {
+		host: "localhost",
+		port: 9000,
+		path: "/elvin",
+	});
 
     useEffect(() => {
         // Our path: http://localhost:3000/videos/meeting?name=Aryan+Patel&id=191952
