@@ -1,22 +1,22 @@
-// const { PeerServer } = require("peer");
+const { PeerServer } = require("peer");
 
-// // Custom Peer Server, only work locally
-// const peerServer = PeerServer({ port: 9000, path: "/elvin" });
+// Custom Peer Server, only work locally
+const peerServer = PeerServer({ port: 9000, path: "/elvin" });
 
 
-const express = require("express");
-const { ExpressPeerServer } = require("peer");
+// const express = require("express");
+// const { ExpressPeerServer } = require("peer");
 
-const app = express();
+// const app = express();
 
-app.get("/", (req, res, next) => res.send("Hello world!"));
+// app.get("/", (req, res, next) => res.send("Hello world!"));
 
-// =======
+// // =======
 
-const server = app.listen(3001);
+// const server = app.listen(9000);
 
-const peerServer = ExpressPeerServer(server, {
-	path: "/elvin",
-});
+// const peerServer = ExpressPeerServer(server, {
+// 	path: "/elvin",
+// });
 
-app.use("/peerjs", peerServer);
+// app.use("/peerjs", peerServer);
