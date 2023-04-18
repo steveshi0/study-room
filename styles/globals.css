@@ -165,6 +165,8 @@ a {
 }
 
 .videoBox {
-  height: 50px;
-  width: 50px;
+  height: 20%;
+  width: 20%;
+  margin: 10px;
+  border-radius: 25px;
 }

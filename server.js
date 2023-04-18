@@ -4,11 +4,11 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const cors = require('cors'); 
-const { PeerServer } = require("peer");
+// const { PeerServer } = require("peer");
 app.use(cors());
 
-// Custom Peer Server, only work locally
-const peerServer = PeerServer({ port: 9000, path: "/elvin" });
+// Custom Peer Server, only work locally  // put it in another file
+//const peerServer = PeerServer({ port: 9000, path: "/elvin" });
 
 const io = new Server(server, {
     cors: {
