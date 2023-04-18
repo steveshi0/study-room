@@ -9,18 +9,10 @@ import Peer from 'peerjs'
 import { v4 as uuidv4 } from 'uuid'
 
 export default function Video() {
-    const [pageURL, setPageURL] = useState("");
-    const [isNativeShare, setNativeShare] = useState(false);
-    useEffect(() => {
-        setPageURL(window.location.href);
-        if (navigator.share) {
-            setNativeShare(true);
-        }
-    }, []);
-
+    
     // socket instance
-    //const socket = socketIOClient(`https://study-room-server-9mmo.onrender.com`, {secure: false});
-    const socket = socketIOClient(`http://localhost:3001`);
+    const socket = socketIOClient(`https://study-room-server-n7es.onrender.com`, {secure: false});
+    //const socket = socketIOClient(`http://localhost:3001`);
     const router = useRouter()
     const user_info = router.query
     const [userID, setUserId] = useState(`${uuidv4()}`);
