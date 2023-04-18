@@ -12,8 +12,8 @@ export default function Video() {
 
 
     // socket instance
-    const socket = socketIOClient(`https://study-room-server-9mmo.onrender.com`, {secure: false});
-    //const socket = socketIOClient(`http://localhost:3001`);
+    //const socket = socketIOClient(`https://study-room-server-9mmo.onrender.com`, {secure: false});
+    const socket = socketIOClient(`http://localhost:3001`);
     const router = useRouter()
     const user_info = router.query
     const [userID, setUserId] = useState(`${uuidv4()}`);
