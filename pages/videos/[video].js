@@ -10,14 +10,17 @@ import { v4 as uuidv4 } from 'uuid'
 
 export default function Video() {
 
-
     // socket instance
-    const socket = socketIOClient(`https://study-room-server-9mmo.onrender.com`, {secure: false});
+    const socket = socketIOClient(`https://study-room-server-n7es.onrender.com`, {secure: false});
     //const socket = socketIOClient(`http://localhost:3001`);
     const router = useRouter()
     const user_info = router.query
     const [userID, setUserId] = useState(`${uuidv4()}`);
-    const peer = new Peer(userID);
+    const peer = new Peer(userID, {
+		host: "localhost",
+		port: 9000,
+		path: "/elvin",
+	});
 
     useEffect(() => {
         // Our path: http://localhost:3000/videos/meeting?name=Aryan+Patel&id=191952
