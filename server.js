@@ -7,8 +7,8 @@ const cors = require('cors');
 // const { PeerServer } = require("peer");
 app.use(cors());
 
-// // Custom Peer Server, only work locally
-// const peerServer = PeerServer({ port: 9000, path: "/elvin" });
+
+ const peerServer = PeerServer({ port: 9000, path: "/elvin" });
 
 const io = new Server(server, {
     cors: {
