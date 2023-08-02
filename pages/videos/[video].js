@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 export default function Video() {
 
     // socket instance
-    const socket = socketIOClient(`https://study-room-server-n7es.onrender.com`, {secure: false});
+    const socket = socketIOClient(`http://localhost:3001`, {secure: false});
     //const socket = socketIOClient(`http://localhost:3001`);
     const router = useRouter()
     const user_info = router.query
